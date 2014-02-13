@@ -57,7 +57,7 @@
 (ido-mode t)
 (ido-everywhere 1)
 (setq ido-enable-tramp-completion nil)
-(global-set-key (kbd "<f12>") 'ido-switch-buffer)
+(global-set-key (kbd "M-1") 'ido-switch-buffer)
 (defun yp-ido-mode-init ()
 "document"
 (interactive)
@@ -172,21 +172,21 @@ ede-locate-base))
 (global-set-key (kbd "<f1> C-c") 'hs-toggle-hiding)
 ;;---------------END 折叠花括号-----------
 
-;;------Python Mode-----------
-;;#(autoload 'pymacs-apply "pymacs")
-;;#(autoload 'pymacs-call "pymacs")
-;;#(autoload 'pymacs-eval "pymacs" nil t)
-;;#(autoload 'pymacs-exec "pymacs" nil t)
-;;#(autoload 'pymacs-load "pymacs" nil t)
+;------Python Mode-----------
+;;(autoload 'pymacs-apply "pymacs")
+;;(autoload 'pymacs-call "pymacs")
+;;(autoload 'pymacs-eval "pymacs" nil t)
+;;(autoload 'pymacs-exec "pymacs" nil t)
+;;(autoload 'pymacs-load "pymacs" nil t)
+
+;;(autoload 'python-mode "python-mode" "Python Mode." t)
+;;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+;;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 ;;#
-;;#(autoload 'python-mode "python-mode" "Python Mode." t)
-;;#(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-;;#(add-to-list 'interpreter-mode-alist '("python" . python-mode))
-;;#
-;;#(require 'pycomplete)
+;;(require 'pycomplete)
 ;;#
 ;;------------Change the font----------------
-;;(defun try-set-font (font-list font-size)
+;(defun try-set-font (font-list font-size)
 ;;(defun font-exists (font-name)
 ;;(if (null (x-list-fonts font-name)) nil t))
 ;;(when font-list
@@ -219,13 +219,13 @@ ede-locate-base))
   ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
-;;(autoload 'python-mode "python-mode" "Python Mode." t)
+;(autoload 'python-mode "python-mode" "Python Mode." t)
 ;;(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 ;;(add-to-list 'interpreter-mode-alist '("python" . python-mode))
 ;;
 ;;(require 'pycomplete)
 ;;------END Python Mode-----------
-;;
+;
 (autoload 'markdown-mode "markdown-mode.el"
     "Major mode for editing Markdown files" t) 
 (setq auto-mode-alist 
@@ -306,3 +306,82 @@ ede-locate-base))
 ;;-----------------enable bookmark default
 
 (enable-visual-studio-bookmarks)
+
+;;----------------undo----------
+
+(global-set-key (kbd "C-z") 'undo)
+
+
+;;--------git----------------------
+(add-to-list 'load-path "~/.emacs.d/git/git-emacs")
+(require 'git-emacs)
+
+;;
+
+;;----------------------------------------------
+
+
+
+;;---------cl-lib--------------------
+
+(add-to-list 'load-path "~/.emacs.d/cl-lib/")
+(require 'cl-lib)
+
+;;---------yasnippet------------------
+(add-to-list 'load-path "~/.emacs.d/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
+
+
+;;-------------auto complete----------
+(add-to-list 'load-path "~/.emacs.d/auto-complete")
+(require 'auto-complete)
+(require 'auto-complete-config)
+(global-auto-complete-mode t)
+
+;;; auto complete mod
+;;; should be loaded after yasnippet so that they can work together
+
+
+(ac-config-default)
+;;; set the trigger key so that it can work together with yasnippet on tab key,
+;;; if the word exists in yasnippet, pressing tab will cause yasnippet to
+;;; activate, otherwise, auto-complete will
+(ac-set-trigger-key "TAB")
+(ac-set-trigger-key "<tab>")
+
+(setq-default ac-sources '(ac-source-words-in-same-mode-buffers))
+(add-hook 'emacs-lisp-mode-hook (lambda () (add-to-list 'ac-sources 'ac-source-symbols)))
+(add-hook 'auto-complete-mode-hook (lambda () (add-to-list 'ac-sources 'ac-source-filename)))
+(set-face-background 'ac-candidate-face "lightgray")
+(set-face-underline 'ac-candidate-face "darkgray")
+(set-face-background 'ac-selection-face "steelblue") ;;; 设置比上面截图中更好看的背景颜色
+(define-key ac-completing-map "\M-n" 'ac-next)  ;;; 列表中通过按M-n来向下移动
+(define-key ac-completing-map "\M-p" 'ac-previous)
+(setq ac-auto-start 2)
+(setq ac-dwim t)
+;;(define-key ac-mode-map (kbd "M-RET") 'auto-complete)
+
+
+;;-------------pymacs-----------
+
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+
+;;------------ropemacs---------
+
+(pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport t)
+
+
+;;-----------pycomplete-------
+
+(require 'pycomplete)
+(setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+(autoload 'python-mode "python-mode" "Python editing mode." t)
+(setq interpreter-mode-alist(cons '("python" . python-mode)
+                           interpreter-mode-alist))
+
