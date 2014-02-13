@@ -1,0 +1,10 @@
+/root/rhel5/kernel/mm/page_alloc.c
+/root/rhel5/kernel/mm/#page_alloc.c#
+/root/rhel6/rhel6/mm/oom_kill.c
+/root/rhel6/rhel6/mm/#oom_kill.c#
+/root/rhel6/rhel6/mm/page_alloc.c
+/root/rhel6/rhel6/mm/#page_alloc.c#
+/root/rhel6/rhel6/include/linux/gfp.h
+/root/rhel6/rhel6/include/linux/#gfp.h#
+/root/rhel6/rhel6/drivers/char/sysrq.c
+/root/rhel6/rhel6/drivers/char/#sysrq.c#
